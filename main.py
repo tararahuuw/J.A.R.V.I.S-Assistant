@@ -5,22 +5,37 @@ import sys
 import pywhatkit
 import subprocess
 import os
+import random
 from datetime import datetime
 
 def greetMe() :
-    currentH = int (datetime.datetime.now(). hour)
-    if currentH >= 0 and currentH < 12:
-        
+    currentH = int (datetime.now().hour)
+    
+    if (currentH) == 33: 
+        print("masuk")
+    
+    if (currentH >= 0) and (currentH < 12):
         engine2 = pyttsx3.init()
-        
-        engine2.say("Good Morning, Sir! This is jarvis")
-       
-        engine2.runAndWait()
-    if currentH >=12 and currentH < 18 :
-        speak ("Good Afternoon, Sir! This is jarvis")
         print("JARVIS : Good Morning, Sir! This is JARVIS")
-    if currentH >=18 and currentH < 0 :
-        speak ("Good Evening, Sir! This is jarvis")
+        engine2.say("Good Morning Sir! This is jarvis")
+        engine2.runAndWait()
+        
+    elif (currentH >=12) and (currentH < 18) :
+        engine2 = pyttsx3.init()
+        print("JARVIS : Good Afternoon, Sir! This is JARVIS")
+        engine2.say("Good Afternoon Sir! This is jarvis")
+        engine2.runAndWait()
+        
+    else:
+        engine2 = pyttsx3.init()
+        print("JARVIS : Good Night, Sir! This is JARVIS")
+        engine2.say("Good Night Sir! This is jarvis")
+        engine2.runAndWait()
+        
+    engine2 = pyttsx3.init()
+    print("JARVIS : What can I help you, sir?")
+    engine2.say("What can I help you sir?")
+    engine2.runAndWait()
 
 def inputvoice():
     r = sr.Recognizer()
@@ -35,82 +50,84 @@ def inputvoice():
                 print(voice)
                 voice = voice.replace('jarvis', '')
     except:
-        engine3 = pyttsx3.init()
-        print("JARVIS : I dont know what you mean. Please repeat again or typing the command!")
-        engine3.say("Sorry sir, I dont know what you mean. Please repeat again or typing the command!")
-        engine3.runAndWait()
-        voice = 'dorr'
+        voice = 'error message'
     
     return voice
 
 def answer (text):
     engine2 = pyttsx3.init()
-    engine2.say("Okay sir" + text)
-    print("JARVIS : Okay sir" + text)
+    engine2.say("Okay sir," + text)
+    print("JARVIS : Okay sir, " + text)
+    engine2.runAndWait()
+def answerW (text):
+    engine2 = pyttsx3.init()
+    engine2.say(text)
+    print("JARVIS : " + text)
     engine2.runAndWait()
     
 def givecommand ():
     a = 1
-    print(a)
     command = inputvoice()
-    while (a <= 4 and command == 'dorr'):
+    while (a < 3 and command == 'error message'):
         a = a + 1
+        answerW("Sorry sir, I dont know what you mean. Please repeat again or typing the command!")
         command = inputvoice()
-        print(a)
-    print(a)
+    print()
     if (a == 3) or command == "type the command" :
-        command = str(input ("Command : "))
+        command = str(input ("Your Command : "))
         
     else :
         print("Your Command :",command)
-
+    print()
     if 'google' in command :
         webbrowser.open("https://google.com")
-        answer ("Open google")
-        print("JARVIS : Okey sir, Opening google")
+        answer ("Opening google")
                 
     elif 'rinaldi munir website' in command:
         webbrowser.open('https://informatika.stei.itb.ac.id/~rinaldi.munir/')
-        answer  ( "opening rinaldi munir's website")
-        print( "JARVIS : Okey sir, Opening rinaldi munir's website")
+        answer  ("Opening rinaldi munir's website")
         
-    elif 'goodbye' or "enough" in command:
-        answer ("Have a nice day")
-        print("JARVIS : Okey sir, Have a nice day")
+    elif 'goodbye' in command or "enough" in command:
+        answer("Have a nice day")
         sys.exit()
         
     elif "thank you" in command:
-        answer ("Your Welcome sir")
-        print("JARVIS : Okay sir, your welcome sir")
+        answer ("Your Welcome")
         
     elif "microsoft teams" in command:
         webbrowser.open("https://teams.microsoft.com/_?culture=en-us&country=US&lm=deeplink&lmsrc=homePageWeb&cmpid=WebSignIn#/school//?ctx=teamsGrid")
-        answer  ( "opening microsoft teams")
-        print( "JARVIS : Okey sir, Opening microsoft teams")
+        answer  ( "Opening microsoft teams")
         
     elif "play" in command:
         pywhatkit.playonyt(command)
         clean = command.replace('play', '')
-        answer  ( "Playing" + command)
-        print( "JARVIS : Okey sir, Playing" + command)
+        answer  ("Playing" + clean)
         
     elif "what is" in command:
         pywhatkit.search(command)
-        answer  ( "this is what you are looking for")
-        print( "JARVIS : Okey sir, This is what you are looking for ")
+        answer  ( "This is what you are looking for")
         
     elif "who are you" in command:
         answer  ( "I am jarvis, I am a digital assistant who created by Muhammad Fahmi Alamsah")
-        print("JARVIS : Okey sir, I am jarvis, I am a digital assistant who created by Muhammad Fahmi Alamsyah")
         
     elif "cmd" in command :
         subprocess.run("start", shell = True)
         answer("Opening cmd")
-        print("JARVIS : Okey sir, Opening cmd")
         
-    elif "vs code" in command :
-        subprocess.call(['C:\Users\M. Fahmi Alamsyah\AppData\Local\Programs\Microsoft VS Code'])
-        
+    # elif "vs code" in command :
+    #     subprocess.call(['C:\Users\M. Fahmi Alamsyah\AppData\Local\Programs\Microsoft VS Code'])
+    
+    elif "how are you" in command or "what's up" in command :
+            stMsgs = [ "Yeah, I'm fine. And you?" , "I'm good. And you?"]
+            answerW(random.choice(stMsgs))
+            jawab = inputvoice()
+            print(jawab)
+            if (jawab == "good"):
+                answerW("Oh nice sir")
+            elif (jawab == "bad"):
+                answerW("I hope you get well soon")
+            else:
+                answerW("hmmm, ignore my question.")
     else:
         print("Jarvis : I dont know what you mean sir. Please repeat again or typing the command!")
         engine2 = pyttsx3.init()
@@ -121,6 +138,8 @@ def givecommand ():
 greetMe()      
 while True:
     givecommand()
-    answer("any more command sir?")
-    print("JARVIS : Okey sir, Any more command sir?")
+    engine2 = pyttsx3.init()
+    print("JARVIS : Any more command sir?")
+    engine2.say("any more command sir?")
+    engine2.runAndWait()
     
