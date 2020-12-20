@@ -68,17 +68,18 @@ def answerW (text):
 def givecommand ():
     a = 1
     command = inputvoice()
-    while (a < 3 and command == 'error message'):
+    while (a <= 3 and command == 'error message'):
         a = a + 1
         answerW("Sorry sir, I dont know what you mean. Please repeat again or typing the command!")
         command = inputvoice()
     print()
-    if (a == 3) or command == "type the command" :
+    if (a == 4) or command == "type the command" :
         command = str(input ("Your Command : "))
         
     else :
         print("Your Command :",command)
     print()
+    
     if 'google' in command :
         webbrowser.open("https://google.com")
         answer ("Opening google")
@@ -138,8 +139,5 @@ def givecommand ():
 greetMe()      
 while True:
     givecommand()
-    engine2 = pyttsx3.init()
-    print("JARVIS : Any more command sir?")
-    engine2.say("any more command sir?")
-    engine2.runAndWait()
+    answerW("Any more command sir?")
     
